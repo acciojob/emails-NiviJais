@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Gmail extends Email {
 
-    private int inboxCapacity; //maximum number of mails inbox can store
+    int inboxCapacity; //maximum number of mails inbox can store
     //Inbox: Stores mails. Each mail has date (Date), sender (String), message (String). It is guaranteed that message is distinct for all mails.
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
     private ArrayList<Mail>  Inbox;
@@ -31,31 +31,34 @@ public class Gmail extends Email {
         Inbox.add(new Mail(date, sender, message));
 
        // Ensure the inbox is sorted based on date after adding a new mail
-        Inbox.sort(Comparator.comparing(Mail::getDate));
+//        Inbox.sort(Comparator.comparing(Mail::getDate));
     }
 
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
-        Mail mailToRemove = findMailByMessage(message);
+        int mailToRemove = findMailByMessage(message);
 
-        if (mailToRemove != null) {
-            moveMailToTrash(mailToRemove);
-        }
-    }
-
-    private void moveMailToTrash(Mail mail) {
-        Inbox.remove(mail);
-        Trash.add(mail);
-    }
-
-    private Mail findMailByMessage(String message) {
         for (Mail mail : Inbox) {
             if (mail.getMessage().equals(message)) {
-                return mail;
+                if(mailToRemove > 1){
+                    Inbox.remove(mail);
+                    Trash.add(mail);
+                }else{
+                    break;
+                }
             }
         }
-        return null;
+    }
+
+    private int findMailByMessage(String message) {
+        int cnt = 0;
+        for (Mail mail : Inbox) {
+            if (mail.getMessage().equals(message)) {
+                cnt++;
+            }
+        }
+        return cnt;
     }
 
     public String findLatestMessage(){
@@ -82,11 +85,14 @@ public class Gmail extends Email {
         //find number of mails in the inbox which are received between given dates
         //It is guaranteed that start date <= end date
         int count = 0;
-        for(Mail mail : Inbox){
-            if(mail.getDate().after(start) && mail.getDate().before(end)){
+
+        for (Mail mail : Inbox) {
+            Date mailDate = mail.getDate();
+            if (mailDate.equals(start) || (mailDate.after(start) && mailDate.before(end)) || mailDate.equals(end)) {
                 count++;
             }
         }
+
         return count;
     }
 

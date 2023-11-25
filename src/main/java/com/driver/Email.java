@@ -27,9 +27,6 @@ public class Email {
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
         if(oldPassword.equals(password) && isValid(newPassword)){
             password = newPassword;
-            System.out.println("Password changed successfully!");
-        }else{
-            System.out.println("Password change failed. Please check the criteria.");
         }
     }
 
