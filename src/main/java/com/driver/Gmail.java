@@ -3,6 +3,7 @@ package com.driver;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 
 public class Gmail extends Email {
 
@@ -34,25 +35,24 @@ public class Gmail extends Email {
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
-        int mailToRemove = findMailByMessage(message);
-        Mail toBeDeleted = null;
-        for (Mail mail : Inbox) {
-            if (mail.getMessage().equals(message)) {
-                toBeDeleted = mail;
-            }
-        }
-        Inbox.remove(toBeDeleted);
-        Trash.add(toBeDeleted);
-    }
+//        Mail toBeDeleted = null;
+//        for (Mail mail : Inbox) {
+//            if (mail.getMessage().equals(message)) {
+//                toBeDeleted = mail;
+//            }
+//        }
+//        Inbox.remove(toBeDeleted);
+//        Trash.add(toBeDeleted);
 
-    private int findMailByMessage(String message) {
-        int cnt = 0;
-        for (Mail mail : Inbox) {
-            if (mail.getMessage().equals(message)) {
-                cnt++;
+        Iterator<Mail> iterator = Inbox.iterator();
+        while (iterator.hasNext()) {
+            Mail mail = iterator.next();
+            String messageInMail = mail.getMessage();
+            if (messageInMail.equals(message)) {
+                Trash.add(mail);
+                iterator.remove();
             }
         }
-        return cnt;
     }
 
     public String findLatestMessage(){
