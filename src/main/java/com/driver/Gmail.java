@@ -124,12 +124,12 @@ public class Gmail extends Email {
 
     private static class Mail{
         private Date date;
-        private String sender;
+        private String senderId;
         private String message;
 
-        public Mail(Date date, String sender, String message) {
+        public Mail(Date date, String senderId, String message) {
             this.date = date;
-            this.sender = sender;
+            this.senderId = senderId;
             this.message = message;
         }
 
@@ -138,7 +138,7 @@ public class Gmail extends Email {
         }
 
         public String getSender() {
-            return sender;
+            return senderId;
         }
 
         public String getMessage() {
