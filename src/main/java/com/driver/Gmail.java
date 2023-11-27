@@ -31,7 +31,7 @@ public class Gmail extends Email {
         Inbox.add(new Mail(date, sender, message));
 
        // Ensure the inbox is sorted based on date after adding a new mail
-//        Inbox.sort(Comparator.comparing(Mail::getDate));
+        Inbox.sort(Comparator.comparing(Mail::getDate));
     }
 
     public void deleteMail(String message){
