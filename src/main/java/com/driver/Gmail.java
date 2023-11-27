@@ -29,26 +29,20 @@ public class Gmail extends Email {
         }
 
         Inbox.add(new Mail(date, sender, message));
-
-       // Ensure the inbox is sorted based on date after adding a new mail
-        Inbox.sort(Comparator.comparing(Mail::getDate));
     }
 
     public void deleteMail(String message){
         // Each message is distinct
         // If the given message is found in any mail in the inbox, move the mail to trash, else do nothing
         int mailToRemove = findMailByMessage(message);
-
+        Mail toBeDeleted = null;
         for (Mail mail : Inbox) {
             if (mail.getMessage().equals(message)) {
-                if(mailToRemove > 1){
-                    Inbox.remove(mail);
-                    Trash.add(mail);
-                }else{
-                    break;
-                }
+                toBeDeleted = mail;
             }
         }
+        Inbox.remove(toBeDeleted);
+        Trash.add(toBeDeleted);
     }
 
     private int findMailByMessage(String message) {
